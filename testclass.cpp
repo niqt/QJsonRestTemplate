@@ -2,11 +2,16 @@
 #include <QJsonDocument>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
+
 #include <QDebug>
 
 
 TestClass::TestClass()
 {
+
 }
 
 

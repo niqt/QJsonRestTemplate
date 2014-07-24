@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     QJsonRestTemplate  *templateRest = new QJsonRestTemplate();
 
-    TestClass *p = new TestClass();
+    TestClass *p = new TestClass("/home/nicola/schema.json");
 
     //templateRest->post(QUrl("http://10.2.10.51:8080/peppe"), p->toJson());
     templateRest->get(QUrl("http://10.2.10.51:8080/greeting"));
