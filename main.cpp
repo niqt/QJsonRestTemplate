@@ -25,6 +25,7 @@
 #include <QQmlApplicationEngine>
 #include "testclass.h"
 #include "qjsonresttemplate.h"
+#include "builder.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +36,10 @@ int main(int argc, char *argv[])
 
     QJsonRestTemplate  *templateRest = new QJsonRestTemplate();
 
-    TestClass *p = new TestClass("/home/nicola/schema.json");
+    TestClass *p = new TestClass();
+    Builder builder;
+    builder.parse("/home/nicola/schema.json");
+    builder.print();
 
     //templateRest->post(QUrl("http://10.2.10.51:8080/peppe"), p->toJson());
     templateRest->get(QUrl("http://10.2.10.51:8080/greeting"));

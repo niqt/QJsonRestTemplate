@@ -18,4 +18,5 @@ include(deployment.pri)
 HEADERS += \
     qjsonresttemplate.h \
     testclass.h \
-    builder.h
+    builder.h \
+    types.h
