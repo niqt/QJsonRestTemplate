@@ -26,7 +26,8 @@
 
 #include <QObject>
 #include <QNetworkReply>
-#include<QJsonDocument>
+#include <QJsonDocument>
+#include "JsonClassInterface.h"
 
 class QJsonRestTemplate : public QObject
 {
@@ -43,10 +44,13 @@ private:
 public:
     explicit QJsonRestTemplate(QObject *parent = 0);
     void post(QUrl, QJsonDocument);
+    void post(QUrl, JsonClassInterface *a);
     void get(QUrl);
 signals:
-    QJsonDocument readResponse();
-    QJsonDocument postResponse();
+    //QJsonDocument readResponse();
+    //QJsonDocument postResponse();
+    JsonClassInterface* readResponse();
+    JsonClassInterface* postResponse();
 public slots:
     void error(QNetworkReply::NetworkError error);
     void finished();

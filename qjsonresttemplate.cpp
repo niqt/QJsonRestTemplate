@@ -20,6 +20,11 @@ void QJsonRestTemplate::post(QUrl url, QJsonDocument doc)
     connectReplySlots();
 }
 
+void QJsonRestTemplate::post(QUrl, JsonClassInterface *a)
+{
+
+}
+
 QByteArray QJsonRestTemplate::prepareNetwork(QUrl url, QJsonDocument doc)
 {
     QByteArray postData;

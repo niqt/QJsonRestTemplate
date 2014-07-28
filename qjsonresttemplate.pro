@@ -19,4 +19,8 @@ HEADERS += \
     qjsonresttemplate.h \
     testclass.h \
     builder.h \
-    types.h
+    types.h \
+    JsonClassInterface.h
+
+OTHER_FILES += \
+    schema.json
