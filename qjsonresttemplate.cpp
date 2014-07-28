@@ -20,9 +20,16 @@ void QJsonRestTemplate::post(QUrl url, QJsonDocument doc)
     connectReplySlots();
 }
 
-void QJsonRestTemplate::post(QUrl, JsonClassInterface *a)
+void QJsonRestTemplate::post(QUrl url, JsonClassInterface *a)
 {
+    QJsonObject jsonObject;
+    a->write(jsonObject);
+    const QJsonDocument doc(jsonObject);
 
+    QByteArray postData = prepareNetwork(url, doc);
+
+    mReply = mManager->post(mReq, postData);
+    connectReplySlots();
 }
 
 QByteArray QJsonRestTemplate::prepareNetwork(QUrl url, QJsonDocument doc)
@@ -85,5 +92,5 @@ void QJsonRestTemplate::finished()
 
 void QJsonRestTemplate::error(QNetworkReply::NetworkError error)
 {
-    qDebug() << "Error\n";
+    qDebug() << "Error " << error << endl;
 }

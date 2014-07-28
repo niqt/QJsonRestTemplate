@@ -18,6 +18,7 @@ private:
     void writeBody(QFile &file, JsonClass newClass);
     QString createGet(JsonItem field);
     QString createSetter(QString className, QString name, QString type);
+    QString createGetter(QString className, QString name, QString type);
     QString createReadLine(JsonItem field, QString conversion);
     void createRead(QFile &file, JsonClass newClass);
     void createWrite(QFile &file, JsonClass newClass);

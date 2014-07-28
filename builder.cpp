@@ -76,6 +76,7 @@ void Builder::writeInclude(QFile &file, JsonClass newClass)
     //QFile file("/tmp/test.h");
 
     file.write("#include\"jsonClassInterface.h\"");
+    file.write("\n");
 
     for (int i = 0; i < newClass.fields.size(); i++) {
         if (!defaultType.contains(newClass.fields.at(i).type)) {
@@ -135,13 +136,26 @@ void Builder::writeBody(QFile &file, JsonClass newClass)
 
     for (int i = 0; i < newClass.fields.size(); i++) {
         if (newClass.fields.at(i).type == "integer") {
-           file.write(QString(createSetter(newClass.name, newClass.fields.at(i).name, "integer") + "\n\n").toStdString().c_str());
+           file.write(QString(createSetter(newClass.name, newClass.fields.at(i).name, "int") + "\n\n").toStdString().c_str());
         }
         else if (newClass.fields.at(i).type == "string") {
             file.write(QString(createSetter(newClass.name, newClass.fields.at(i).name, "QString") + "\n\n").toStdString().c_str());
             // write QString
         } else {
             file.write(QString(createSetter(newClass.name, newClass.fields.at(i).name, newClass.fields.at(i).type) + "\n\n").toStdString().c_str());
+        }
+
+    }
+
+    for (int i = 0; i < newClass.fields.size(); i++) {
+        if (newClass.fields.at(i).type == "integer") {
+           file.write(QString(createGetter(newClass.name, newClass.fields.at(i).name, "int") + "\n\n").toStdString().c_str());
+        }
+        else if (newClass.fields.at(i).type == "string") {
+            file.write(QString(createGetter(newClass.name, newClass.fields.at(i).name, "QString") + "\n\n").toStdString().c_str());
+            // write QString
+        } else {
+            file.write(QString(createGetter(newClass.name, newClass.fields.at(i).name, newClass.fields.at(i).type) + "\n\n").toStdString().c_str());
         }
 
     }
@@ -159,10 +173,10 @@ void Builder::createRead(QFile &file, JsonClass newClass)
 
     for (int i = 0; i < newClass.fields.size(); i++) {
         if (newClass.fields.at(i).type == "integer") {
-           file.write(QString("\t" + createReadLine(newClass.fields.at(i), ".toInteger()") + "\n").toStdString().c_str());
+           file.write(QString("\t" + createReadLine(newClass.fields.at(i), ".toInt()") + ";\n").toStdString().c_str());
         }
         else if (newClass.fields.at(i).type == "string") {
-            file.write(QString("\t" + createReadLine(newClass.fields.at(i), ".toString()") + "\n").toStdString().c_str());
+            file.write(QString("\t" + createReadLine(newClass.fields.at(i), ".toString()") + ";\n").toStdString().c_str());
 
         } else {
             //
@@ -181,10 +195,10 @@ void Builder::createWrite(QFile &file, JsonClass newClass)
 
     for (int i = 0; i < newClass.fields.size(); i++) {
         if (newClass.fields.at(i).type == "integer") {
-           file.write(QString("\t" + createWriteLine(newClass.fields.at(i)) + "\n").toStdString().c_str());
+           file.write(QString("\t" + createWriteLine(newClass.fields.at(i)) + ";\n").toStdString().c_str());
         }
         else if (newClass.fields.at(i).type == "string") {
-            file.write(QString("\t" + createWriteLine(newClass.fields.at(i)) + "\n").toStdString().c_str());
+            file.write(QString("\t" + createWriteLine(newClass.fields.at(i)) + ";\n").toStdString().c_str());
 
         } else {
             //
@@ -197,13 +211,13 @@ void Builder::createWrite(QFile &file, JsonClass newClass)
 
 QString Builder::createReadLine(JsonItem field, QString conversion)
 {
-    QString line = QString("this." + field.name + " = json[\"" + field.name + "\"]"+ conversion);
+    QString line = QString("this->" + field.name + " = json[\"" + field.name + "\"]"+ conversion);
     return line;
 }
 
 QString Builder::createWriteLine(JsonItem field)
 {
-    QString line = QString("json[\"" + field.name + "\"] = this."+ field.name);
+    QString line = QString("json[\"" + field.name + "\"] = this->"+ field.name);
     return line;
 }
 
@@ -220,10 +234,17 @@ QString Builder::createSetter(QString className, QString name, QString type)
 {
     QString upper = name.at(0).toUpper() + name.mid(1);
     QString nameMethod = "void " + className + "::set" + upper + "(" + type + " " + name + ")\n";
-    QString body = QString("{") + QString("\n\t") + "this." + name + " = " + name + ";\n}";
+    QString body = QString("{") + QString("\n\t") + "this->" + name + " = " + name + ";\n}";
     return (nameMethod + body);
 }
 
+QString Builder::createGetter(QString className, QString name, QString type)
+{
+    QString upper = name.at(0).toUpper() + name.mid(1);
+    QString nameMethod = type + " " + className + "::get" + upper + "()\n";
+    QString body = QString("\t return ") + "this->" + name + ";\n}";
+    return (nameMethod + body);
+}
 
 QString Builder::cleanField(QString field, QString other) {
     QString jsonField(field);
