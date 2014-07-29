@@ -36,6 +36,7 @@ private:
     QNetworkReply *mReply;
     QNetworkAccessManager *mManager;
     QNetworkRequest mReq;
+    JsonClassInterface *mResult;
 
     QByteArray prepareNetwork(QUrl url, QJsonDocument doc);
     void prepareNetwork(QUrl url);
@@ -46,10 +47,11 @@ public:
     void post(QUrl, QJsonDocument);
     void post(QUrl, JsonClassInterface *a);
     void get(QUrl);
+    void get(QUrl, JsonClassInterface *a);
 signals:
     //QJsonDocument readResponse();
     //QJsonDocument postResponse();
-    JsonClassInterface* readResponse();
+    void readResponse(JsonClassInterface*);
     JsonClassInterface* postResponse();
 public slots:
     void error(QNetworkReply::NetworkError error);

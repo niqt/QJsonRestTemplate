@@ -77,6 +77,13 @@ void QJsonRestTemplate::get(QUrl url)
     connectReplySlots();
 }
 
+void QJsonRestTemplate::get(QUrl url, JsonClassInterface *a)
+{
+    mResult = a;
+    prepareNetwork(url);
+    mReply = mManager->get(mReq);
+    connectReplySlots();
+}
 
 void QJsonRestTemplate::updateProgress(qint64 c , qint64 t)
 {
@@ -87,7 +94,12 @@ void QJsonRestTemplate::updateProgress(qint64 c , qint64 t)
 
 void QJsonRestTemplate::finished()
 {
-    qDebug() << (QString) mReply->readAll();
+
+    QString dum = (QString) mReply->readAll();
+
+    QJsonDocument doc = QJsonDocument::fromJson(dum.toUtf8());
+    mResult->read(doc.object());
+    emit readResponse(mResult);
 }
 
 void QJsonRestTemplate::error(QNetworkReply::NetworkError error)

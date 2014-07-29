@@ -17,10 +17,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     ../../qjsonresttemplate.cpp \
-    Product.cpp
+    Product.cpp \
+    testobject.cpp
 
 HEADERS += \
     ../../JsonClassInterface.h \
     ../../qjsonresttemplate.h \
     ../../types.h \
-    Product.h
+    Product.h \
+    testobject.h

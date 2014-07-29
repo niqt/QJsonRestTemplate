@@ -1,5 +1,5 @@
-#include "../../JsonClassInterface.h"
-#include <QString>
+#include"../../JsonClassInterface.h"
+#include<QString>
 
 class Product:public JsonClassInterface {
 private:
@@ -7,11 +7,11 @@ private:
 	QString name;
 
 public:
-    Product();
+Product();
 	int getId();
 	QString getName();
-    void setName(QString name);
-    void setId(int id);
-    void read(const QJsonObject &json);
+	void setId(int id);
+	void setName(QString name);
+	void read(const QJsonObject &json);
 	void write(QJsonObject &json) const;
 };

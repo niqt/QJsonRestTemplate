@@ -75,7 +75,7 @@ void Builder::writeInclude(QFile &file, JsonClass newClass)
 {
     //QFile file("/tmp/test.h");
 
-    file.write("#include\"jsonClassInterface.h\"");
+    file.write("#include\"../../JsonClassInterface.h\"");
     file.write("\n");
 
     for (int i = 0; i < newClass.fields.size(); i++) {
@@ -108,6 +108,8 @@ void Builder::writeInclude(QFile &file, JsonClass newClass)
 
     file.write("\npublic:\n");
 
+    file.write(QString(newClass.name +"();\n").toStdString().c_str());
+
     for (int i = 0; i < newClass.fields.size(); i++) {
 
 
@@ -123,9 +125,26 @@ void Builder::writeInclude(QFile &file, JsonClass newClass)
         }
 
     }
-    file.write(QString("\tvoid read(const QJsonObject &json)\n").toStdString().c_str());
+
+    for (int i = 0; i < newClass.fields.size(); i++) {
+
+
+        if (newClass.fields.at(i).type == "integer") {
+
+           file.write(QString("\t" + createSet(newClass.fields.at(i), "int") + ";\n").toStdString().c_str());
+        }
+        else if (newClass.fields.at(i).type == "string") {
+            file.write(QString("\t" + createSet(newClass.fields.at(i), "QString") + ";\n").toStdString().c_str());
+            // write QString
+        } else {
+            file.write(QString("\t" + createSet(newClass.fields.at(i), newClass.fields.at(i).type) + ";\n").toStdString().c_str());
+        }
+
+    }
+
+    file.write(QString("\tvoid read(const QJsonObject &json);\n").toStdString().c_str());
     file.write(QString("\tvoid write(QJsonObject &json) const;\n").toStdString().c_str());
-    file.write("}\n");
+    file.write("};\n");
 }
 
 void Builder::writeBody(QFile &file, JsonClass newClass)
@@ -229,6 +248,15 @@ QString Builder::createGet(JsonItem field)
     return nameMethod;
 }
 
+QString Builder::createSet(JsonItem field, QString type)
+{
+    QString name = field.name;
+    QString upper = name.at(0).toUpper() + name.mid(1);
+    QString nameMethod = "void set" + upper + "(" + type + " " + field.name + ")";
+    return nameMethod;
+}
+
+
 
 QString Builder::createSetter(QString className, QString name, QString type)
 {
@@ -241,7 +269,7 @@ QString Builder::createSetter(QString className, QString name, QString type)
 QString Builder::createGetter(QString className, QString name, QString type)
 {
     QString upper = name.at(0).toUpper() + name.mid(1);
-    QString nameMethod = type + " " + className + "::get" + upper + "()\n";
+    QString nameMethod = type + " " + className + "::get" + upper + "()\n{\n";
     QString body = QString("\t return ") + "this->" + name + ";\n}";
     return (nameMethod + body);
 }
