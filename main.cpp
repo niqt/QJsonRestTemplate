@@ -23,7 +23,7 @@
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include "testclass.h"
+
 #include "qjsonresttemplate.h"
 #include "builder.h"
 
@@ -34,15 +34,18 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 
-    QJsonRestTemplate  *templateRest = new QJsonRestTemplate();
+    //QJsonRestTemplate  *templateRest = new QJsonRestTemplate();
 
-    TestClass *p = new TestClass();
+
     Builder builder;
-    builder.parse("/home/nicola/schema.json");
+    //builder.parse("/home/nicola/schema.json");
+    QStringList languages;
+    languages << "c++";
+    builder.createClasses("/home/nicola/schema.json", "/tmp/",languages);
     builder.print();
 
     //templateRest->post(QUrl("http://10.2.10.51:8080/peppe"), p->toJson());
-    templateRest->get(QUrl("http://10.2.10.51:8080/greeting"));
+    //templateRest->get(QUrl("http://10.2.10.51:8080/greeting"));
     //connect(reply,SIGNAL(uploadProgress(qint64,qint64)),this,SLOT(updateProgress(qint64,qint64)));
 
     return app.exec();

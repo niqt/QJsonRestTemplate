@@ -7,16 +7,10 @@ QJsonRestTemplate::QJsonRestTemplate(QObject *parent) :
 
 void QJsonRestTemplate::post(QUrl url, QJsonDocument doc)
 {
-    /*QVariantMap top;
-    top.insert( "username", QString( "test@gmail.com" ) );
-
-    const QJsonDocument doc = QJsonDocument::fromVariant(top);*/
-
     QByteArray postData = prepareNetwork(url, doc);
 
     mReply = mManager->post(mReq, postData);
 
-    //reply=manager->get(req);
     connectReplySlots();
 }
 

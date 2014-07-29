@@ -21,24 +21,21 @@
 *
 */
 
-#ifndef TESTOBJECT_H
-#define TESTOBJECT_H
 
-#include <QObject>
-#include "../../qjsonresttemplate.h"
-#include "../../JsonClassInterface.h"
-#include "Product.h"
+#ifndef WRITECPLUSPLUSCLASS_H
+#define WRITECPLUSPLUSCLASS_H
 
-class TestObject : public QObject
+#include "writecode.h"
+#include <QList>
+
+class WriteCPlusPlusClass : public WriteCode
 {
-    Q_OBJECT
+private:
+    void writeInclude(QFile &file, JsonClass newClass);
+    void writeBody(QFile &file, JsonClass newClass);
 public:
-    explicit TestObject(QObject *parent = 0);
-
-signals:
-
-public slots:
-    void readResponse(JsonClassInterface *);
+    WriteCPlusPlusClass(QList<JsonClass> jsonClasses);
+    void write(QString path);
 };
 
-#endif // TESTOBJECT_H
+#endif // WRITECPLUSPLUSCLASS_H

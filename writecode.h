@@ -21,26 +21,36 @@
 *
 */
 
-#ifndef PEPPE_H
-#define PEPPE_H
+
+
+#ifndef WRITECODE_H
+#define WRITECODE_H
 
 #include <QString>
-#include <QObject>
-#include <QNetworkReply>
-#include <QJsonDocument>
 
-class TestClass
+
+#include "types.h"
+#include <QFile>
+#include <QStringList>
+
+class WriteCode
 {
+protected:
+    QStringList defaultType;
+    QList<JsonClass> mJsonClasses;
 
-private:
-    QString m_username;
-    QNetworkReply *reply;
+    QString createSetter(QString className, QString name, QString type);
+    QString createGetter(QString className, QString name, QString type);
+    QString createReadLine(JsonItem field, QString conversion);
+    void createRead(QFile &file, JsonClass newClass);
+    void createWrite(QFile &file, JsonClass newClass);
+    QString createWriteLine(JsonItem field);
+    QString createGet(JsonItem field);
+    QString createSet(JsonItem field, QString type);
+
 public:
-    TestClass();
-    QString username() const;
-    void setUsername(const QString &name);
-    QJsonDocument toJson();
-
+    WriteCode(QList<JsonClass> jsonClasses);
+    virtual void write(QString path){;}
 };
 
-#endif // PEPPE_H
+#endif // WRITECODE_H

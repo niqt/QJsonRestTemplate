@@ -4,8 +4,9 @@ QT += qml quick widgets network
 
 SOURCES += main.cpp \
     qjsonresttemplate.cpp \
-    testclass.cpp \
-    builder.cpp
+    builder.cpp \
+    writecode.cpp \
+    writecplusplusclass.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,10 +18,11 @@ include(deployment.pri)
 
 HEADERS += \
     qjsonresttemplate.h \
-    testclass.h \
     builder.h \
     types.h \
-    JsonClassInterface.h
+    JsonClassInterface.h \
+    writecode.h \
+    writecplusplusclass.h
 
 OTHER_FILES += \
     schema.json
