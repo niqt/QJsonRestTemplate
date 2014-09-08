@@ -21,34 +21,36 @@
 *
 */
 
-#ifndef BUILDER_H
-#define BUILDER_H
 
-#include <QObject>
-#include "types.h"
-#include <QStringList>
+
+#ifndef WRITECODE_H
+#define WRITECODE_H
+
+#include <QString>
+
+
+#include "../types.h"
 #include <QFile>
+#include <QStringList>
 
-class Builder : public QObject
+class WriteCode
 {
-    Q_OBJECT
-private:
-    QList<JsonClass> jsonClasses;
+protected:
     QStringList defaultType;
+    QList<JsonClass> mJsonClasses;
 
-    QString cleanField(QString field, QString other = 0);
-
+    QString createSetter(QString className, QString name, QString type);
+    QString createGetter(QString className, QString name, QString type);
+    QString createReadLine(JsonItem field, QString conversion);
+    void createRead(QFile &file, JsonClass newClass);
+    void createWrite(QFile &file, JsonClass newClass);
+    QString createWriteLine(JsonItem field);
+    QString createGet(JsonItem field);
+    QString createSet(JsonItem field, QString type);
 
 public:
-    explicit Builder(QObject *parent = 0);
-    void parse(QString path);
-    void print();
-    void writeClass(JsonClass newClass);
-    bool createClasses(QString schemaPath, QString classesPath, QStringList languages);
-signals:
-
-public slots:
-
+    WriteCode(QList<JsonClass> jsonClasses);
+    virtual void write(QString path){;}
 };
 
-#endif // BUILDER_H
+#endif // WRITECODE_H
