@@ -39,12 +39,11 @@ int main(int argc, char *argv[])
     QJsonRestTemplate  *templateRest = new QJsonRestTemplate();
 
 
-
+/*
     templateRest->post(QUrl("http://10.2.10.51:8080/peppe"), p->toJson());
     templateRest->get(QUrl("http://10.2.10.51:8080/greeting"));
     connect(reply,SIGNAL(uploadProgress(qint64,qint64)),this,SLOT(updateProgress(qint64,qint64)));
-
+*/
     /* end for test */
-
     return app.exec();
 }
