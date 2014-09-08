@@ -4,11 +4,23 @@
 #include "writecode.h"
 #include "writecplusplusclass.h"
 
+
+/*!
+ * \brief Builder::Builder
+ * \param parent
+ */
+
+
 Builder::Builder(QObject *parent) :
     QObject(parent)
 {
     defaultType << "char" << "integer" << "boolean";
 }
+
+/*!
+ * \brief parse the json schema and create JsonClass object
+ * \param path of the json schema file
+ */
 
 void Builder::parse(QString path)
 {
@@ -58,6 +70,15 @@ void Builder::parse(QString path)
 
 }
 
+
+/*!
+ * \brief Given json schema, create Classes for languages
+ * \param schemaPath where is the json schema
+ * \param classesPath where to write the classes
+ * \param languages for the output classes (only c++ supported)
+ * \return
+ */
+
 bool Builder::createClasses(QString schemaPath, QString classesPath, QStringList languages)
 {
     parse(schemaPath);
@@ -73,6 +94,9 @@ bool Builder::createClasses(QString schemaPath, QString classesPath, QStringList
     }
 }
 
+/*!
+ * \brief print json classes
+ */
 
 void Builder::print()
 {
@@ -86,6 +110,13 @@ void Builder::print()
         }
     }
 }
+
+/*!
+ * \brief remove bad character from fields class
+ * \param field
+ * \param other character to remove
+ * \return
+ */
 
 QString Builder::cleanField(QString field, QString other) {
     QString jsonField(field);

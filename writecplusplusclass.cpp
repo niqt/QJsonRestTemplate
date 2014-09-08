@@ -1,9 +1,19 @@
 #include "writecplusplusclass.h"
 
+/*!
+ * \brief WriteCPlusPlusClass::WriteCPlusPlusClass
+ * \param jsonClasses to transform in C++
+ */
+
 WriteCPlusPlusClass::WriteCPlusPlusClass(QList<JsonClass> jsonClasses): WriteCode(jsonClasses)
 {
 }
 
+
+/*!
+ * \brief write c++ .h and c++ in path
+ * \param The place where found the c++ files
+ */
 
 void WriteCPlusPlusClass::write(QString path)
 {
@@ -21,6 +31,13 @@ void WriteCPlusPlusClass::write(QString path)
         file.close();
     }
 }
+
+/*!
+ * \brief Write .h
+ * \param file is the .h
+ * \param newClass class to transform
+ */
+
 
 void WriteCPlusPlusClass::writeInclude(QFile &file, JsonClass newClass)
 {
@@ -97,6 +114,14 @@ void WriteCPlusPlusClass::writeInclude(QFile &file, JsonClass newClass)
     file.write(QString("\tvoid write(QJsonObject &json) const;\n").toStdString().c_str());
     file.write("};\n");
 }
+
+
+
+/*!
+ * \brief Write .cpp
+ * \param file the .cpp file
+ * \param newClass to transform
+ */
 
 void WriteCPlusPlusClass::writeBody(QFile &file, JsonClass newClass)
 {

@@ -1,10 +1,23 @@
 #include "writecode.h"
 
+
+/*!
+ * \brief Constructor
+ * \param jsonClasses to write
+ */
+
 WriteCode::WriteCode(QList<JsonClass> jsonClasses)
 {
     defaultType << "char" << "integer" << "boolean";
     mJsonClasses = jsonClasses;
 }
+
+
+/*!
+ * \brief Create read method
+ * \param file the .cpp file
+ * \param newClass class to write
+ */
 
 void WriteCode::createRead(QFile &file, JsonClass newClass)
 {
@@ -26,7 +39,11 @@ void WriteCode::createRead(QFile &file, JsonClass newClass)
     file.write("}");
 }
 
-
+/*!
+ * \brief Create write method
+ * \param file the .cpp file
+ * \param newClass class to write
+ */
 
 void WriteCode::createWrite(QFile &file, JsonClass newClass)
 {
@@ -48,17 +65,37 @@ void WriteCode::createWrite(QFile &file, JsonClass newClass)
     file.write("}");
 }
 
+/*!
+ * \brief Create readLine for the read method
+ * \param field field name
+ * \param conversion conversion function
+ * \return
+ */
+
 QString WriteCode::createReadLine(JsonItem field, QString conversion)
 {
     QString line = QString("this->" + field.name + " = json[\"" + field.name + "\"]"+ conversion);
     return line;
 }
 
+
+/*!
+ * \brief Create writeLine for the write method
+ * \param field field name
+ * \return
+ */
+
 QString WriteCode::createWriteLine(JsonItem field)
 {
     QString line = QString("json[\"" + field.name + "\"] = this->"+ field.name);
     return line;
 }
+
+/*!
+ * \brief Create getter for .h
+ * \param field for getter
+ * \return
+ */
 
 QString WriteCode::createGet(JsonItem field)
 {
@@ -68,6 +105,14 @@ QString WriteCode::createGet(JsonItem field)
     return nameMethod;
 }
 
+
+/*!
+ * \brief Create setter for .h
+ * \param field for setter
+ * \param type return type
+ * \return
+ */
+
 QString WriteCode::createSet(JsonItem field, QString type)
 {
     QString name = field.name;
@@ -76,6 +121,13 @@ QString WriteCode::createSet(JsonItem field, QString type)
     return nameMethod;
 }
 
+/*!
+ * \brief Create setter for .cpp file
+ * \param className Class name for setter
+ * \param name name of setter
+ * \param type type of field
+ * \return
+ */
 
 
 QString WriteCode::createSetter(QString className, QString name, QString type)
@@ -85,6 +137,14 @@ QString WriteCode::createSetter(QString className, QString name, QString type)
     QString body = QString("{") + QString("\n\t") + "this->" + name + " = " + name + ";\n}";
     return (nameMethod + body);
 }
+
+/*!
+ * \brief Create gette in .cpp file
+ * \param className Class name for getter
+ * \param name name of setter
+ * \param type type of field
+ * \return
+ */
 
 QString WriteCode::createGetter(QString className, QString name, QString type)
 {
